@@ -1,51 +1,61 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout/main-layout}">
-<div layout:fragment="content">
-    <h3>Danh mục khóa học</h3>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/main-layout}">
+<div layout:fragment="content" class="container mt-4">
+    <h2 class="mb-4 text-primary"><i class="bi bi-journal-text"></i> Danh sách khóa học</h2>
 
-    <form th:action="@{/course/list}" method="get" class="row g-3 mb-4">
+    <form th:action="@{/course/list}" method="get" class="row g-3 mb-4 p-3 bg-light border rounded shadow-sm">
         <div class="col-md-4">
+            <label class="form-label fw-bold">Trình độ</label>
             <select name="level" class="form-select">
-                <option value="">-- Chọn trình độ --</option>
-                <option value="Beginner">Beginner</option>
-                <option value="Intermediate">Intermediate</option>
-                <option value="Advanced">Advanced</option>
+                <option value="">-- Tất cả trình độ --</option>
+                <option value="Beginner" th:selected="${selectedLevel == 'Beginner'}">Beginner</option>
+                <option value="Intermediate" th:selected="${selectedLevel == 'Intermediate'}">Intermediate</option>
+                <option value="Advanced" th:selected="${selectedLevel == 'Advanced'}">Advanced</option>
             </select>
         </div>
         <div class="col-md-4">
-            <input type="number" name="maxFee" class="form-control" placeholder="Học phí tối đa">
+            <label class="form-label fw-bold">Học phí tối đa (VNĐ)</label>
+            <input type="number" name="maxFee" class="form-control" th:value="${selectedMaxFee}" placeholder="Nhập số tiền...">
         </div>
-        <div class="col-md-2">
-            <button type="submit" class="btn btn-primary w-100">Lọc</button>
+        <div class="col-md-4 d-flex align-items-end">
+            <button type="submit" class="btn btn-primary w-100">Tìm kiếm ngay</button>
         </div>
     </form>
 
-    <table class="table table-hover" th:if="${not #lists.isEmpty(courses)}">
-        <thead>
+    <table class="table table-bordered table-hover shadow-sm">
+        <thead class="table-dark text-center">
         <tr>
-            <th>Mã</th>
-            <th>Tên khóa</th>
+            <th>Mã lớp</th>
+            <th>Tên khóa học</th>
+            <th>Trình độ</th>
             <th>Học phí</th>
-            <th>Thao tác</th>
+            <th>Hành động</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="c : ${courses}">
-            <td th:text="${c.id}"></td>
-            <td><a th:href="@{/course/detail/{id}(id=${c.id})}" th:text="${c.name}"></a></td>
-            <td th:text="${#numbers.formatDecimal(c.fee, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'"></td>
-            <td>
-                <a th:href="@{/course/edit/{id}(id=${c.id})}" class="btn btn-sm btn-warning">Sửa</a>
-                <form th:action="@{/course/delete/{id}(id=${c.id})}" method="post" style="display:inline">
-                    <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Xóa?')">Hủy</button>
+            <td class="text-center fw-bold" th:text="${c.id}"></td>
+            <td th:text="${c.name}"></td>
+            <td class="text-center">
+                    <span th:classappend="${c.level == 'Advanced' ? 'bg-danger' : (c.level == 'Intermediate' ? 'bg-warning text-dark' : 'bg-success')}"
+                          class="badge" th:text="${c.level}"></span>
+            </td>
+            <td class="text-end" th:text="${#numbers.formatDecimal(c.fee, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'"></td>
+            <td class="text-center">
+                <a th:href="@{/course/detail/{id}(id=${c.id})}" class="btn btn-info btn-sm text-white">Chi tiết</a>
+                <a th:href="@{/course/edit/{id}(id=${c.id})}" class="btn btn-warning btn-sm">Sửa</a>
+                <form th:action="@{/course/delete/{id}(id=${c.id})}" method="post" style="display: inline-block;">
+                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Bạn chắc chắn muốn hủy khóa này?')">Hủy</button>
                 </form>
+            </td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(courses)}">
+            <td colspan="5" class="text-center text-danger py-4 fw-bold">
+                Hiện chưa có lớp học phù hợp với yêu cầu của bạn.
             </td>
         </tr>
         </tbody>
     </table>
-
-    <div th:if="${#lists.isEmpty(courses)}" class="alert alert-warning">
-        Hiện chưa có lớp học phù hợp với trình độ này.
-    </div>
 </div>
 </html>

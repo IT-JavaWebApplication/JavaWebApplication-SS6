@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/main-layout}">
+<head><title>Trang chủ - EDU-PATH</title></head>
+<div layout:fragment="content">
+  <div class="p-5 mb-4 bg-light rounded-3 shadow-sm text-center">
+    <h1 class="display-5 fw-bold text-primary">Chào mừng đến với EDU-PATH</h1>
+    <p class="fs-4">Hệ thống quản lý lộ trình học tập chuyên nghiệp.</p>
+    <a th:href="@{/course/list}" class="btn btn-primary btn-lg">Xem danh sách khóa học</a>
+  </div>
+</div>
+</html>

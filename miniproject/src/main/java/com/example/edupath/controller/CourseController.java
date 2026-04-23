@@ -11,6 +11,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 @RequestMapping("/course")
 public class CourseController {
+
     @Autowired
     private CourseService service;
 
@@ -18,6 +19,8 @@ public class CourseController {
     public String list(@RequestParam(required = false) String level,
                        @RequestParam(required = false) Double maxFee, Model model) {
         model.addAttribute("courses", service.filterCourses(level, maxFee));
+        model.addAttribute("selectedLevel", level);
+        model.addAttribute("selectedMaxFee", maxFee);
         return "course/list";
     }
 
@@ -36,7 +39,7 @@ public class CourseController {
     @PostMapping("/update")
     public String update(@ModelAttribute Course course, RedirectAttributes ra) {
         service.updateCourse(course);
-        ra.addFlashAttribute("message", "Cập nhật thành công!");
+        ra.addFlashAttribute("message", "Cập nhật thành công khóa học " + course.getId());
         return "redirect:/course/list";
     }
 
@@ -46,7 +49,7 @@ public class CourseController {
         if (error != null) {
             ra.addFlashAttribute("error", error);
         } else {
-            ra.addFlashAttribute("message", "Đã xóa khóa học.");
+            ra.addFlashAttribute("message", "Đã hủy khóa học thành công!");
         }
         return "redirect:/course/list";
     }

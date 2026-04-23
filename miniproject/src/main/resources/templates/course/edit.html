@@ -1,10 +1,36 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/main-layout}">
+<div layout:fragment="content" class="container mt-4">
+    <div class="col-md-6 mx-auto card shadow">
+        <div class="card-header bg-warning">
+            <h4 class="mb-0 text-dark">Cập nhật khóa học: <span th:text="${course.id}"></span></h4>
+        </div>
+        <div class="card-body">
+            <form th:action="@{/course/update}" method="post">
+                <input type="hidden" name="id" th:value="${course.id}">
 
-</body>
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Tên khóa học (Không được sửa)</label>
+                    <input type="text" class="form-control bg-light" th:value="${course.name}" readonly>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Học phí mới (VNĐ)</label>
+                    <input type="number" name="fee" class="form-control" th:value="${course.fee}" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Ngày khai giảng mới</label>
+                    <input type="date" name="startDate" class="form-control" th:value="${course.startDate}" required>
+                </div>
+
+                <div class="d-flex justify-content-between mt-4">
+                    <a th:href="@{/course/list}" class="btn btn-secondary">Quay lại</a>
+                    <button type="submit" class="btn btn-success">Lưu thay đổi</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 </html>

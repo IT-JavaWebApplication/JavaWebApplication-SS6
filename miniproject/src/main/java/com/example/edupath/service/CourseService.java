@@ -14,12 +14,14 @@ public class CourseService {
 
     public List<Course> filterCourses(String level, Double maxFee) {
         return repository.findAll().stream()
-                .filter(c -> (level == null || level.isEmpty() || c.getLevel().equals(level)))
+                .filter(c -> (level == null || level.isEmpty() || c.getLevel().equalsIgnoreCase(level)))
                 .filter(c -> (maxFee == null || c.getFee() <= maxFee))
                 .collect(Collectors.toList());
     }
 
-    public Course getDetail(String id) { return repository.findById(id); }
+    public Course getDetail(String id) {
+        return repository.findById(id);
+    }
 
     public void updateCourse(Course updatedCourse) {
         Course existing = repository.findById(updatedCourse.getId());
@@ -32,7 +34,7 @@ public class CourseService {
     public String deleteCourse(String id) {
         Course c = repository.findById(id);
         if (c != null && c.getStudentCount() > 0) {
-            return "Không thể hủy khóa học đã có học viên đăng ký";
+            return "Không thể hủy khóa học đã có học viên đăng ký!";
         }
         repository.deleteById(id);
         return null;
