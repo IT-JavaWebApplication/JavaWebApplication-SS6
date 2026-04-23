@@ -1,0 +1,43 @@
+plugins {
+    id 'java'
+    id 'war'
+}
+
+group 'com.example'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = '17'
+targetCompatibility = '17'
+
+repositories {
+    mavenCentral()
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+    options.compilerArgs << "-parameters"
+}
+
+dependencies {
+    // 1. Spring Web MVC (Cốt lõi)
+    implementation 'org.springframework:spring-webmvc:6.1.5'
+
+    // 2. Thymeleaf cho Spring 6
+    implementation 'org.thymeleaf:thymeleaf-spring6:3.1.2.RELEASE'
+    implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:3.3.0'
+
+    // 3. Jakarta Servlet API (Dùng cho Tomcat 10)
+    // Lưu ý: Chỉ dùng 'compileOnly' vì Tomcat đã có sẵn thư viện này
+    compileOnly 'jakarta.servlet:jakarta.servlet-api:6.0.0'
+
+    // 4. Jakarta Annotation (Hỗ trợ các cấu hình Java Bean)
+    implementation 'jakarta.annotation:jakarta.annotation-api:2.1.1'
+
+    // 5. Test (Nếu cần)
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.10.2'
+}
+
+test {
+    useJUnitPlatform()
+}

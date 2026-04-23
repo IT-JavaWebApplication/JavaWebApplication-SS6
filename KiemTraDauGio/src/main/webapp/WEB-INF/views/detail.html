@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Chi tiết sách</title>
+</head>
+<body>
+<div th:replace="~{fragments :: header('CHI TIẾT CUỐN SÁCH')}"></div>
+
+<div th:if="${book != null}">
+    <p><strong>Mã số:</strong> <span th:text="${book.id}"></span></p>
+    <p><strong>Tên sách:</strong> <span th:text="${book.title}"></span></p>
+    <p><strong>Tác giả:</strong> <span th:text="${book.author}"></span></p>
+    <p><strong>Giá bán:</strong> <span th:text="${book.price}"></span> VNĐ</p>
+</div>
+<div th:unless="${book != null}">
+    <p>Không tìm thấy sách!</p>
+</div>
+
+<a th:href="@{/books}">Quay lại danh sách</a>
+
+<div th:replace="~{fragments :: footer}"></div>
+</body>
+</html>

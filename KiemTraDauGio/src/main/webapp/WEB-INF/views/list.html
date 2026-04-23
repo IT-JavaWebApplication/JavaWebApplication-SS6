@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Danh sách sách</title>
+    <style>
+        .high-price { color: red; font-weight: bold; }
+    </style>
+</head>
+<body>
+<div th:replace="~{fragments :: header('DANH MỤC SÁCH NỘI BỘ')}"></div>
+
+<table border="1" cellpadding="10">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Tên sách</th>
+        <th>Giá</th>
+        <th>Hành động</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="b : ${books}" th:classappend="${b.price >= 300000} ? 'high-price' : ''">
+        <td th:text="${b.id}"></td>
+        <td th:text="${b.title}"></td>
+        <td th:text="${#numbers.formatDecimal(b.price, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'"></td>
+        <td>
+            <a th:href="@{/books/{id}(id=${b.id})}">Xem chi tiết</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<div th:replace="~{fragments :: footer}"></div>
+</body>
+</html>
