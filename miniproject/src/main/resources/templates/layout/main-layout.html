@@ -1,10 +1,34 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <title>EDU-PATH Management</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 </head>
 <body>
-$END$
+<header class="bg-primary text-white text-center py-4">
+    <h1>EDU-PATH LOGO</h1>
+    <p>Kiến tạo lộ trình tri thức</p>
+</header>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+    <div class="container">
+        <div class="navbar-nav">
+            <a class="nav-link" th:href="@{/course/list}">Danh sách khóa học</a>
+            <a class="nav-link" href="#">Đăng ký tư vấn</a>
+        </div>
+    </div>
+</nav>
+
+<main class="container">
+    <div th:if="${message}" class="alert alert-success" th:text="${message}"></div>
+    <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
+    <div layout:fragment="content"></div>
+</main>
+
+<footer class="text-center py-4 mt-5 border-top">
+    &copy; 2023 Edu-Path System
+</footer>
 </body>
 </html>
